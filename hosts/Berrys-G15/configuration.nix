@@ -13,7 +13,7 @@
     ../../modules/services/mihomo.nix
     ../../modules/programs/browsers.nix
     ../../modules/programs/basic-dev-tools.nix
-    ../../modulew/programs/cuda12.nix
+    ../../modules/programs/cuda12.nix
     ../../profiles/i18n/zh-cn.nix
   ];
 

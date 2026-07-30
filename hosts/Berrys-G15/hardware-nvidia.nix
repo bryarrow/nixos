@@ -5,6 +5,7 @@
     nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
         "nvidia-x11"
         "nvidia-settings"
+        "nvidia-kernel-modules"
     ];
 
     services.xserver.videoDrivers = [ "nvidia" ];
@@ -12,7 +13,7 @@
     hardware.graphics.enable = true;
 
     hardware.nvidia = {
-      open = true;
+      open = false;
       package = config.boot.kernelPackages.nvidiaPackages.latest;
 
       modesetting.enable = true;
