@@ -16,6 +16,7 @@
     gnomeExtensions.kimpanel
     gnomeExtensions.night-theme-switcher
     gnomeExtensions.coverflow-alt-tab
+    gnomeExtensions.appindicator
 
     refine
   ];
