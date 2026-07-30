@@ -4,6 +4,7 @@
   imports = [
     ./boot.nix
     ./hardware-configuration.nix
+    ./hardware-nvidia.nix
     ./network.nix
     ./users.nix
 
