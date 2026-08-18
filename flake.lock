@@ -1,5 +1,26 @@
 {
   "nodes": {
+    "gaokun3": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787211358,
+        "narHash": "sha256-lAiq4k8z7JILW/i0Wv0lKtc1XQjez81BPEde8ggeL/0=",
+        "owner": "bryarrow",
+        "repo": "linux-gaokun-buildbot",
+        "rev": "c2d63d24bdf1753da023718bbcd78712f9a67737",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bryarrow",
+        "ref": "gaokun3-nix",
+        "repo": "linux-gaokun-buildbot",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1785090369,
@@ -34,6 +55,7 @@
     },
     "root": {
       "inputs": {
+        "gaokun3": "gaokun3",
         "nixpkgs": "nixpkgs",
         "nixpkgs-cuda12": "nixpkgs-cuda12"
       }
