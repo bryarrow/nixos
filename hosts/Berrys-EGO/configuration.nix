@@ -14,6 +14,7 @@
     ../../modules/fixes/gio-extra-modules.nix
     ../../modules/programs/browsers.nix
     ../../modules/programs/basic-dev-tools.nix
+    ../../modules/programs/clash-verge.nix
     ../../profiles/i18n/zh-cn.nix
   ];
 
