@@ -1,4 +1,4 @@
-{ gaokun3, ... }:
+{ gaokun3, pkgs, ... }:
 
 {
   imports = [
@@ -23,6 +23,8 @@
 
   # 启用新版 nix 命令和 flakes。
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  environment.systemPackages = [ pkgs.util-linux ];
 
   # 这是首次安装该机器时的 NixOS 版本，用来维持旧版本创建的数据和服务状态兼容。
   # 安装后不要随系统升级随意修改它；修改它不会升级系统，只会改变部分模块的兼容行为。
