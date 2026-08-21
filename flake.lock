@@ -7,16 +7,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1787211358,
-        "narHash": "sha256-lAiq4k8z7JILW/i0Wv0lKtc1XQjez81BPEde8ggeL/0=",
+        "lastModified": 1787228016,
+        "narHash": "sha256-+CUFCD+dB9q+1eKP0Vmib+IPgo238PDN2j1VH9yL6zg=",
         "owner": "bryarrow",
         "repo": "linux-gaokun-buildbot",
-        "rev": "c2d63d24bdf1753da023718bbcd78712f9a67737",
+        "rev": "48605a73dc9c9c3750009b20a47e73e732baf949",
         "type": "github"
       },
       "original": {
         "owner": "bryarrow",
-        "ref": "gaokun3-nix",
+        "ref": "gaokun3-nix-debug",
         "repo": "linux-gaokun-buildbot",
         "type": "github"
       }
