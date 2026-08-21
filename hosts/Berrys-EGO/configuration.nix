@@ -2,14 +2,14 @@
 
 {
   imports = [
+    gaokun3.nixosModules.gaokun3
     ./gaokun3.nix
     ./boot.nix
     ./hardware-configuration.nix
     ./network.nix
     ./users.nix
 
-    gaokun3.nixosModules.gaokun3
-
+    ../../modules/services/ssh.nix
     ../../modules/desktop/gnome.nix
     ../../modules/fixes/gio-extra-modules.nix
     ../../modules/programs/browsers.nix
