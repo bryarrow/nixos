@@ -9,6 +9,7 @@
     ./users.nix
 
     ../../modules/desktop/gnome.nix
+    ../../modules/desktop/polkit.nix
     ../../modules/fixes/gio-extra-modules.nix
     ../../modules/services/mihomo.nix
     ../../modules/programs/browsers.nix

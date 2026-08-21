@@ -11,6 +11,7 @@
 
     ../../modules/services/ssh.nix
     ../../modules/desktop/gnome.nix
+    ../../modules/desktop/polkit.nix
     ../../modules/fixes/gio-extra-modules.nix
     ../../modules/programs/browsers.nix
     ../../modules/programs/basic-dev-tools.nix
