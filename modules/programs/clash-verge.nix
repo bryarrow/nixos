@@ -4,8 +4,8 @@ let
   metacubex-geosite = pkgs.runCommand "geosite-dir" {} ''
     mkdir -p $out/share/v2ray
     cp ${pkgs.fetchurl {
-      url = "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat";
-      hash = "sha256-EXR2oO/aJsIY+kSrp3kiHFilXxzMzHkI/FoI4gq1q30=";
+      url = "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@2f48b0534e59710bf45837236e1884158c0c8478/geosite.dat";
+      hash = "sha256-OvFgtWc74CDEBCKuOwOzIKOa+buaUrUm9u4YAj/lrd0=";
     }} $out/share/v2ray/geosite.dat
   '';
 in
