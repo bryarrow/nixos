@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787228016,
-        "narHash": "sha256-+CUFCD+dB9q+1eKP0Vmib+IPgo238PDN2j1VH9yL6zg=",
+        "lastModified": 1787537457,
+        "narHash": "sha256-I6Bf7kmh8qSfPa9wGhIZL/fkTSQh0ZY40e75+NdvzCI=",
         "owner": "bryarrow",
         "repo": "linux-gaokun-buildbot",
-        "rev": "48605a73dc9c9c3750009b20a47e73e732baf949",
+        "rev": "c4d85f846edb1341cd587494f697942f70985f49",
         "type": "github"
       },
       "original": {
