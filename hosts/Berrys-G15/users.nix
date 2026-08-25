@@ -6,4 +6,6 @@
     extraGroups = [ "wheel" "networkmanager" ];
     shell = pkgs.nushell;
   };
+
+  environment.shells = [ pkgs.nushell ];
 }
