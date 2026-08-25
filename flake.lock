@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787537457,
-        "narHash": "sha256-I6Bf7kmh8qSfPa9wGhIZL/fkTSQh0ZY40e75+NdvzCI=",
+        "lastModified": 1787670066,
+        "narHash": "sha256-/mp6p6fm1p5S5VWcbyjr/zn3HHeHwrrH4RAIZH/wISg=",
         "owner": "bryarrow",
         "repo": "linux-gaokun-buildbot",
-        "rev": "c4d85f846edb1341cd587494f697942f70985f49",
+        "rev": "1e693f0e53c15a5efd8eacad0e2c4502e278b27b",
         "type": "github"
       },
       "original": {
@@ -23,11 +23,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1787360063,
-        "narHash": "sha256-dt4WdcvsA8/RCe+VZZwqU0X+XMM3wBbGCWA0/sFWzGo=",
+        "lastModified": 1787498568,
+        "narHash": "sha256-9i/VTdusq/+NM/tz+J1Re+ojkMB8MBf0QshnYfzHz30=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2c423e03bbafcff28bfadc6781a4a8257f205cb5",
+        "rev": "56c02bc00adcf003215cc4bd996d6efaf4cff188",
         "type": "github"
       },
       "original": {
