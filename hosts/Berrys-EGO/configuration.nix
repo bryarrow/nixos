@@ -8,7 +8,7 @@
     ./hardware-configuration.nix
     ./network.nix
     ./users.nix
-
+    ../../modules/arch/arm64-to-x64.nix
     ../../modules/services/ssh.nix
     ../../modules/desktop/gnome.nix
     ../../modules/desktop/polkit.nix
