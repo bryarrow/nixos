@@ -16,7 +16,7 @@
       },
       "original": {
         "owner": "bryarrow",
-        "ref": "gaokun3-nix-debug",
+        "ref": "main",
         "repo": "linux-gaokun-buildbot",
         "type": "github"
       }
