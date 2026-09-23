@@ -13,11 +13,9 @@
   };
 
   inputs = {
+    gaokun3.url = "github:bryarrow/linux-gaokun-buildbot/main";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-cuda12.url = "github:NixOS/nixpkgs/0954f7ee2f6bb3dc7d4e3d0d8bcb8fd4bde4cfc5";
-   
-    gaokun3.url = "github:bryarrow/linux-gaokun-buildbot/main";
-    gaokun3.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { nixpkgs, nixpkgs-cuda12, gaokun3, ... }: {
