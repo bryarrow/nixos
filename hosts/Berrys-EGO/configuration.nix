@@ -6,13 +6,12 @@
     ./gaokun3.nix
     ./boot.nix
     ./hardware-configuration.nix
-    ./network.nix
     ./users.nix
     ../../modules/arch/arm64-to-x64.nix
     ../../modules/services/ssh.nix
     ../../modules/desktop/gnome.nix
-    ../../modules/desktop/polkit.nix
     ../../modules/fixes/gio-extra-modules.nix
+    ../../modules/network/networkmanager.nix
     ../../modules/programs/browsers.nix
     ../../modules/programs/basic-dev-tools.nix
     ../../modules/programs/clash-verge.nix

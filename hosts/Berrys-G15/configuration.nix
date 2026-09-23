@@ -5,12 +5,11 @@
     ./boot.nix
     ./hardware-configuration.nix
     ./hardware-nvidia.nix
-    ./network.nix
     ./users.nix
 
     ../../modules/desktop/gnome.nix
-    ../../modules/desktop/polkit.nix
     ../../modules/fixes/gio-extra-modules.nix
+    ../../modules/network/networkmanager.nix
     ../../modules/services/mihomo.nix
     ../../modules/programs/browsers.nix
     ../../modules/programs/basic-dev-tools.nix

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 let
   metacubex-geosite = pkgs.runCommand "geosite-dir" {} ''

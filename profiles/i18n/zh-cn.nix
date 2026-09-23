@@ -3,12 +3,9 @@
 {
   time.timeZone = "Asia/Shanghai";
 
+  # i18n.supportedLocales 无需配置：其默认值已包含 C.UTF-8、en_US.UTF-8，
+  # 并根据 defaultLocale/extraLocaleSettings 自动加入 zh_CN.UTF-8。
   i18n.defaultLocale = "zh_CN.UTF-8";
-  i18n.supportedLocales = [
-    "C.UTF-8/UTF-8"
-    "en_US.UTF-8/UTF-8"
-    "zh_CN.UTF-8/UTF-8"
-  ];
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "zh_CN.UTF-8";
     LC_IDENTIFICATION = "zh_CN.UTF-8";
@@ -30,13 +27,8 @@
     ];
   };
 
-  environment.sessionVariables = {
-    XMODIFIERS = "@im=fcitx";
-    QT_IM_MODULE = "fcitx";
-    QT_IM_MODULES = "wayland;fcitx";
-    GTK_IM_MODULE = "fcitx";
-
-    LANG = "zh_CN.UTF-8";
-    LC_ALL = "zh_CN.UTF-8";
-  };
+  # XMODIFIERS、QT_IM_MODULE、GTK_IM_MODULE 已由 fcitx5 模块在
+  # environment.variables 中设置；这里只补充 Qt6 在 Wayland 下需要的模块顺序。
+  # 不要设置 LC_ALL，它会覆盖上面所有 LC_* 分类。
+  environment.sessionVariables.QT_IM_MODULES = "wayland;fcitx";
 }
