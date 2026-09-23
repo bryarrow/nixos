@@ -9,6 +9,7 @@
     ./users.nix
     ../../modules/arch/arm64-to-x64.nix
     ../../modules/services/ssh.nix
+    ../../modules/services/flatpak.nix
     ../../modules/desktop/gnome.nix
     ../../modules/fixes/gio-extra-modules.nix
     ../../modules/network/networkmanager.nix

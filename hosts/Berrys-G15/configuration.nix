@@ -11,6 +11,7 @@
     ../../modules/fixes/gio-extra-modules.nix
     ../../modules/network/networkmanager.nix
     ../../modules/services/mihomo.nix
+    ../../modules/services/flatpak.nix
     ../../modules/programs/browsers.nix
     ../../modules/programs/basic-dev-tools.nix
     ../../modules/programs/cuda12.nix
