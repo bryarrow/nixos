@@ -2,8 +2,14 @@
   description = "Berry 的 NixOS 系统配置";
 
   nixConfig = {
-    extra-substituters = "https://berrys-nixos.cachix.org";
-    extra-trusted-public-keys = "berrys-nixos.cachix.org-1:N4MjZIxrYDxyIQwm+95J63GhYehDnqs+LBLQUMtXkaY=";
+    extra-substituters = [
+      "https://berrys-nixos.cachix.org"
+      "https://gaokun3.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "berrys-nixos.cachix.org-1:N4MjZIxrYDxyIQwm+95J63GhYehDnqs+LBLQUMtXkaY="
+      "gaokun3.cachix.org-1:ikL6EofK55QEwKucrUo44SPKewscvAMJr7ibBxJtIsI="
+    ];
   };
 
   inputs = {
