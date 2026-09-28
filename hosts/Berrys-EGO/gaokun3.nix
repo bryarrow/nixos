@@ -5,6 +5,9 @@
   # 并且已默认开启 hardware.enableRedistributableFirmware。
   hardware.gaokun3.enable = true;
 
+  # 开启 EL2 支持
+  hardware.gaokun3.el2.enable = true;
+
   # 固件许可：linux-firmware-gaokun3 使用 unfreeRedistributable，需要显式允许。
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [ "linux-firmware-gaokun3" ];

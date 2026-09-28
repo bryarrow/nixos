@@ -5,11 +5,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1790516312,
-        "narHash": "sha256-OGxfBByLKdIPgKSjMZSqTxQ9Nhf+g4l/P33ShIhUzzQ=",
+        "lastModified": 1790579500,
+        "narHash": "sha256-CPSglXxFdyBnL+31Bxo/NB4soEAPBuDitTOtf7rZt04=",
         "owner": "bryarrow",
         "repo": "linux-gaokun-buildbot",
-        "rev": "96d4a3f9d972ae7e4dd8fe6c96d89bc6f65dbfd6",
+        "rev": "151ed26ed2ec8a3e748d7524e3742f730b6ef164",
         "type": "github"
       },
       "original": {
