@@ -21,4 +21,12 @@
 
     refine
   ];
+
+  # 因为是gnome才用得到的部分就放这里了
+  networking.networkmanager = {
+    enable = true;
+    plugins = with pkgs; [
+      networkmanager-openvpn
+    ];
+  };
 }
