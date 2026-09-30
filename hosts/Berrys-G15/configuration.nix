@@ -12,6 +12,7 @@
     ../../modules/network/networkmanager.nix
     ../../modules/services/mihomo.nix
     ../../modules/services/flatpak.nix
+    ../../modules/services/netbird.nix
     ../../modules/programs/browsers.nix
     ../../modules/programs/basic-dev-tools.nix
     ../../modules/programs/cuda12.nix
