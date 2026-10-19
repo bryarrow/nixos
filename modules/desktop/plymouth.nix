@@ -1,10 +1,6 @@
 { ... }:
 
 {
-  boot.initrd.kernelModules = [
-    "msm"
-  ];
-
   boot.plymouth = {
     enable = true;
     theme = "spinner";
