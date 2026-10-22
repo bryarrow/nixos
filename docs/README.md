@@ -12,8 +12,8 @@
 
 ## Clash Verge（Berrys-EGO）
 
-以下两条曾被当成"冗余"清理，但它们是 nixpkgs 打包方式的固有缺陷导致的**真实故障绕过**，删除会复现故障。请先读完再动。
+以下几条曾被当成"冗余"清理，但它们是 nixpkgs 打包方式的固有缺陷导致的**真实故障绕过**，删除会复现故障。请先读完再动。
 
-- **不要试图在 Nix 里 pin geosite 数据集。** 内核是以 `-d ~/.local/share/io.github.clash-verge-rev.clash-verge-rev` 启动的，geodata 从**数据目录**读取；包里 `lib/Clash\ Verge/resources/*.dat` 只是首次运行时的播种来源。所以任何 Nix 侧的数据 pin 都到不了内核，换了也不生效（实测：pin 为 4,246,665 字节，而内核实际读的是数据目录里 4,247,789 字节的那份）。
-- **数据目录权限必须保持可写。** Rust 的 `fs::copy` 会保留权限位，而 Nix store 里的文件是 0444，因此应用播种出来的数据目录副本也是只读的，之后它就无法覆盖自己这份数据——表现为 GeoData 更新报目录权限错、并连带"无法激活配置"。`modules/programs/clash-verge.nix` 里的 `systemd.tmpfiles.rules`（`z` 类型）就是为修正这点而存在，**不要删**。geosite 的日常更新交给应用自身的 GeoData 更新即可。
+- **geosite 必须落到数据目录，不能只 pin 在 Nix store。** 内核是以 `-d ~/.local/share/io.github.clash-verge-rev.clash-verge-rev` 启动的，geodata 从**数据目录**读取；包里 `lib/Clash\ Verge/resources/*.dat` 只是首次运行时的播种来源，所以只改 store 里的文件不会生效。nixpkgs 自带的 v2ray-domain-list-community 缺少订阅常用的 MetaCubeX 分类（如 `APPLE-CN`），会报 `list apple-cn not found in geosite.dat`。因此 `modules/programs/clash-verge.nix` 用 `fetchurl` 固定一份 MetaCubeX `geosite.dat`，再由 `clash-verge-geodata.service` 在开机/配置切换时覆盖到数据目录；应用内 GeoData 更新只对当前会话有效，下次开机仍会回到固定版本。只把文件 symlink 到包的 resources 不会更新已有数据目录。
+- **数据目录权限必须保持可写。** Rust 的 `fs::copy` 会保留权限位，而 Nix store 里的文件是 0444，因此应用播种出来的数据目录副本也是只读的，之后它就无法覆盖自己这份数据——表现为 GeoData 更新报目录权限错、并连带"无法激活配置"。`modules/programs/clash-verge.nix` 里的 `systemd.tmpfiles.rules` 就是为修正这点而存在，**不要删**：`d` 预创建数据目录与 `logs`（避免被 root 的 service 抢先创建成 root 属主），`Z` 递归修正历史遗留的 root 属主，`z` 把播种出来的 geodata 改回 0644。geosite 的版本由 Nix 固定；要跟随上游更新时改 `metaGeosite` 的 URL/hash 再 switch。
 - **内核版本只能在 Nix 侧选。** 包内磁盘上只有 `bin/verge-mihomo`（wrapGAppsHook3 包装器 → `bin/.verge-mihomo-wrapped` → `pkgs.mihomo`），没有任何其他内核文件，所以 GUI 里切换内核必然"找不到文件"（所有内核项，不只 alpha）；nixpkgs 的 `unwrapped.nix` 还主动 patch 掉了 Mihomo Alpha 选项，并注明"需要更新内核请覆盖 wrapped 包的 mihomo 输入"。原先把 `mihomo` 覆写到 1.19.26 只是"当时最新"，已随 nixpkgs 前进到 1.19.31 而成为降级，故删除，改用 nixpkgs 默认（实测从 1.19.26 升到 1.19.31）；若将来需要指定内核，请用 `clash-verge-rev.override { mihomo = ...; }`，而不要再用全局 `nixpkgs.overlays` 覆盖 `pkgs.mihomo`（那会连带影响 `services.mihomo`）。
