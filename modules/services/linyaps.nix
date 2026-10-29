@@ -1,0 +1,5 @@
+{ ... }:
+
+{
+  services.linyaps.enable = true;
+}
