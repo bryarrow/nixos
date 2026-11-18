@@ -51,13 +51,12 @@ hosts/
   Berrys-EGO/              # aarch64 主机：boot、hardware-configuration、gaokun3、users
 modules/
   arch/arm64-to-x64.nix    # box64 + binfmt + extra-platforms，让 aarch64 能跑 x86_64
-  desktop/gnome.nix        # GDM/GNOME、GNOME 扩展、两个本地 overlay
+  desktop/gnome.nix        # GDM/GNOME、GNOME 扩展、本地 overlay（mutter 触摸修正）
   fixes/                   # 绕过上游/打包怪癖的修正
   network/networkmanager.nix
   programs/                # browsers、basic-dev-tools、cuda12、clash-verge、waydroid
   services/                # mihomo、ssh
 pkgs/
-  gnome-rounded-blur/      # 自打包：Blur my Shell 的圆角模糊 GObject 库，注入 gnome-shell
   mutter-touch-fix/        # 自打包：mutter 触摸 grab 空指针崩溃补丁
 profiles/i18n/zh-cn.nix    # 时区、中文 locale、fcitx5 输入法
 docs/README.md             # 配置整理决策记录（含踩坑说明，改配置前请先读）
@@ -67,7 +66,7 @@ docs/README.md             # 配置整理决策记录（含踩坑说明，改配
 
 - **主机与模块分离**：`hosts/*/configuration.nix` 只做 `imports`、主机名、`system.stateVersion` 等主机级声明；可复用逻辑一律放进 `modules/`，两台机器需要同样行为时改模块而不是复制文件。`hardware-configuration.nix` 由 `nixos-generate-config` 生成，不要手改。
 - **`system.stateVersion = "26.11"`** 表示首次安装时的版本，用于维持旧数据/服务状态兼容。升系统时**不要**跟着改。
-- **自定义包**：`modules/desktop/gnome.nix` 通过 `nixpkgs.overlays` 引入两个 overlay —— `gnome-rounded-blur` 额外暴露给 `gnome-shell` 的 `GI_TYPELIB_PATH`/`LD_LIBRARY_PATH`，`mutter` 打上触摸 grab 的 NULL 解引用补丁。
+- **自定义包**：`modules/desktop/gnome.nix` 通过 `nixpkgs.overlays` 引入 `mutter-touch-fix`，给 `mutter` 打上触摸 grab 的 NULL 解引用补丁。
 - **`nixpkgs-cuda12` 只作用于 G15**：通过 `specialArgs` 注入，`modules/programs/cuda12.nix` 独立 `import` 该 nixpkgs，不污染全局。
 - **EGO 固件是 unfreeRedistributable**：`linux-firmware-gaokun3` 必须用 `allowUnfreePredicate` 显式放行，故 `hosts/Berrys-EGO/gaokun3.nix` 里的许可声明不能删。
 - **`docs/README.md` 里有几条"看着冗余、删了就坏"的记录**：Clash Verge 的 geodata 播种权限（`systemd.tmpfiles` 的 `z` 规则）、内核版本只能在 Nix 侧选等。清理配置前务必先读这份文档。
@@ -76,4 +75,4 @@ docs/README.md             # 配置整理决策记录（含踩坑说明，改配
 
 - `modules/network/networkmanager.nix` 固定 DNS 为 `114.114.114.114`，并设 `dns = "none"` 阻止 NetworkManager 改写 `resolv.conf`；要换 DNS 就改这里。
 - `modules/services/ssh.nix` 只开 `services.openssh.enable`，其余用 NixOS 默认值（22 端口、允许密码登录、root 仅密钥）。EGO 的 `users.nix` 里放的是 G15 的公钥，换机器时注意同步。
-- `pkgs/gnome-rounded-blur/package.nix` 的 `version` 是形如 `1.0.0-unstable-2026-04-08` 的日期版本，跟上游 commit 走；更新 `rev` 时记得同步 `hash`。
+- 不再自打包 `gnome-rounded-blur`：Blur my Shell 从 v76 起改用自带的 Cogl 管线实现（圆角由 `set_corner_radius` 在扩展侧完成），v77 已彻底移除对 `gi://Blur` 的引用，因此外部圆角模糊库和对应的 `gnome-shell` 包装都不需要了（详见 `docs/README.md`）。

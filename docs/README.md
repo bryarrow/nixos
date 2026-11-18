@@ -2,7 +2,7 @@
 
 本目录记录整理决策。
 
-- 原 `pkgs/gnome-rounded-blur/rounded_blur_build.sh` 是上游面向传统发行版的安装脚本，不参与当前 NixOS flake 求值；整理后不再放入配置目录，原文件仍保留在执行脚本时创建的备份目录中。
+- **`pkgs/gnome-rounded-blur` 已整体删除（2026-11-18）。** 该包是为 Blur my Shell 提供圆角模糊的 GObject 库，通过 overlay 把 `GI_TYPELIB_PATH`/`LD_LIBRARY_PATH` 注入 `gnome-shell`。上游从 v76（`Replace Shell blur with a unified pipeline backend`）起改用自带 Cogl 管线，圆角在扩展侧用 `set_corner_radius` 实现；v77（`Remove the rounded blur guide and helper`）已删掉安装引导与 helper，源码中再无 `gi://Blur` 引用，而 nixpkgs 当前打包的正是 v77。继续打包只会带来维护负担：它在 GNOME Shell 51 / mutter 51.1 上编不过（`clutter_get_default_backend()` 已被上游删除，`libmutter-18.pc` 也改名成 `libmutter-51.pc`），并会让 `gnome-shell` 变得不可替代（overlay 改了 `postFixup`，只能本地重编）。现在 `modules/desktop/gnome.nix` 只保留 `mutter-touch-fix` overlay 与 `gnomeExtensions.blur-my-shell`。原 `pkgs/gnome-rounded-blur/rounded_blur_build.sh` 是上游面向传统发行版的安装脚本，从来就不参与 NixOS flake 求值。
 - 两份完全相同的 `hosts/*/network.nix` 合并为 `modules/network/networkmanager.nix`，不要再往主机目录里加同名文件。
 - 原 `modules/desktop/polkit.nix` 已删除：GNOME（`services.gnome.core-os-services`）和 NetworkManager 模块都会设置 `security.polkit.enable = true`，无需重复声明。
 - `modules/services/ssh.nix` 只保留 `services.openssh.enable`：原来的 `ports`、`PasswordAuthentication`、`PermitRootLogin` 写的都是 NixOS 默认值。
