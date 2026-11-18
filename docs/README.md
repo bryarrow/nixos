@@ -10,6 +10,10 @@
 - `hosts/Berrys-EGO/gaokun3.nix` 删除了与 gaokun3 模块重复的 `hardware.enableRedistributableFirmware = lib.mkDefault true`；`allowUnfreePredicate` 仍然必需（`linux-firmware-gaokun3` 是 unfreeRedistributable）。
 - `modules/programs/cuda12.nix` 删除了无人读取的 `CUDA12_LD_PATH`；它非标准变量名，需要暴露给程序时应改用 `LD_LIBRARY_PATH`。
 
+## Rime（ibus + rime-ice）
+
+- **`default.custom.yaml` 不能删。** nixpkgs 的 rime-ice 把上游 `default.yaml` 改名成了 `rime_ice_suggestion.yaml`（见 `pkgs/by-name/ri/rime-ice/package.nix`），而 `ibus-engines.rime` 在数据包里找不到 `default.yaml` 时会补一个空文件。空 `default.yaml` 的 `schema_list` 为空，Rime 部署后一个方案都没有，表现就是“部署失败”、无法输入中文。`profiles/i18n/zh-cn.nix` 因此用 `writeTextDir` 额外提供 `share/rime-data/default.custom.yaml`（`patch: __include: rime_ice_suggestion:/`），并作为第二个 `rimeDataPkgs` 传给 `rime.override`；删掉它就会退回无方案状态。
+
 ## Clash Verge（Berrys-EGO）
 
 以下几条曾被当成"冗余"清理，但它们是 nixpkgs 打包方式的固有缺陷导致的**真实故障绕过**，删除会复现故障。请先读完再动。

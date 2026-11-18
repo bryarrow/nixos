@@ -1,5 +1,17 @@
 { pkgs, ... }:
 
+let
+  # nixpkgs 的 rime-ice 把上游 default.yaml 改名成了 rime_ice_suggestion.yaml
+  #（pkgs/by-name/ri/rime-ice/package.nix），而 ibus-rime 在数据包里找不到
+  # default.yaml 时会自己补一个空文件。空 default.yaml 的 schema_list 为空，
+  # Rime 部署后没有任何可用方案，无法输入中文（看起来就像部署失败）。
+  # 按 rime-ice 上游的说明补一份 default.custom.yaml，把它的默认配置包含进来。
+  rimeIceDefaultCustom = pkgs.writeTextDir "share/rime-data/default.custom.yaml" ''
+    patch:
+      __include: rime_ice_suggestion:/
+  '';
+in
+
 {
   time.timeZone = "Asia/Shanghai";
 
@@ -20,15 +32,16 @@
 
   i18n.inputMethod = {
     enable = true;
-    type = "fcitx5";
-    fcitx5.addons = with pkgs; [
-      qt6Packages.fcitx5-chinese-addons
-      fcitx5-gtk
+    type = "ibus";
+    ibus.engines = with pkgs.ibus-engines; [
+      (rime.override {
+        rimeDataPkgs = [
+          pkgs.rime-ice
+          rimeIceDefaultCustom
+        ];
+      })
     ];
   };
 
-  # XMODIFIERS、QT_IM_MODULE、GTK_IM_MODULE 已由 fcitx5 模块在
-  # environment.variables 中设置；这里只补充 Qt6 在 Wayland 下需要的模块顺序。
-  # 不要设置 LC_ALL，它会覆盖上面所有 LC_* 分类。
-  environment.sessionVariables.QT_IM_MODULES = "wayland;fcitx";
+  environment.sessionVariables.QT_IM_MODULES = "wayland;ibus";
 }

@@ -12,7 +12,6 @@
     gnomeExtensions.blur-my-shell
     gnomeExtensions.just-perfection
     gnomeExtensions.dash-to-dock
-    gnomeExtensions.kimpanel
     gnomeExtensions.night-theme-switcher
     gnomeExtensions.coverflow-alt-tab
     gnomeExtensions.appindicator
