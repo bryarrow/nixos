@@ -7,6 +7,7 @@
     ./boot.nix
     ./hardware-configuration.nix
     ./users.nix
+    ./droidloom.nix
     ../../modules/arch/arm64-to-x64.nix
     ../../modules/services/ssh.nix
     ../../modules/services/flatpak.nix
@@ -20,6 +21,7 @@
     ../../modules/programs/basic-dev-tools.nix
     ../../modules/programs/clash-verge.nix
     # ../../modules/programs/waydroid.nix
+    ../../modules/programs/droidloom.nix
     ../../profiles/i18n/zh-cn.nix
   ];
 

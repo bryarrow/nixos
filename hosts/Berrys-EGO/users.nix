@@ -5,6 +5,8 @@
 
   users.users.berry = {
     isNormalUser = true;
+    # Droidloom 的 cell host_uid、数据目录和 denial socket 都依赖这个固定值。
+    uid = 1000;
     extraGroups = [ "wheel" "networkmanager" ];
     shell = pkgs.nushell;
     openssh.authorizedKeys.keys = [
