@@ -10,7 +10,7 @@ let
   metaGeosite = pkgs.fetchurl {
     name = "geosite.dat";
     url = "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat";
-    hash = "sha256-OKrCoQdIWjgYUBEGKS77vJIhRYiqHWKsX7XYodGjNfc=";
+    hash = "sha256-BsoSIo++opPgA8aKtx5QcdOvfkkflyJm+8VGblMcT3A=";
   };
 in
 {
