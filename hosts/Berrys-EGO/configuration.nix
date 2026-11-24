@@ -13,6 +13,7 @@
     ../../modules/services/flatpak.nix
     ../../modules/services/linyaps.nix
     ../../modules/services/netbird.nix
+    ../../modules/services/keyd.nix
     ../../modules/desktop/plymouth.nix
     ../../modules/desktop/gnome.nix
     ../../modules/fixes/gio-extra-modules.nix
@@ -20,7 +21,6 @@
     ../../modules/programs/browsers.nix
     ../../modules/programs/basic-dev-tools.nix
     ../../modules/programs/clash-verge.nix
-    # ../../modules/programs/waydroid.nix
     ../../modules/programs/droidloom.nix
     ../../profiles/i18n/zh-cn.nix
   ];

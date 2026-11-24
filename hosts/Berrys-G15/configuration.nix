@@ -13,6 +13,7 @@
     ../../modules/network/networkmanager.nix
     ../../modules/services/flatpak.nix
     ../../modules/services/netbird.nix
+    ../../modules/services/keyd.nix
     ../../modules/programs/browsers.nix
     ../../modules/programs/basic-dev-tools.nix
     ../../modules/programs/clash-verge.nix
