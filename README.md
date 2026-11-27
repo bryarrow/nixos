@@ -42,6 +42,8 @@ sudo nixos-rebuild switch --flake .#berrysEGO --accept-flake-config
 nix flake update
 ```
 
+交互式执行 `nixos-rebuild` 时，输出会自动交给 [nix-output-monitor](https://github.com/maralorn/nix-output-monitor)：终端底部画出按依赖关系排布的构建树，正在构建/下载、已完成和失败的分支一眼可见。重定向输出、CI、`--json`、`--help` 等非交互场合会自动退回原始输出；想临时关掉就先设环境变量 `NIXOS_REBUILD_NOM=0`（nushell 里写 `$env.NIXOS_REBUILD_NOM = 0`）再执行。`nom` 本身也在 PATH 里，可以 `nom build .#droidloom` 之类直接用它。
+
 ### Droidloom（EGO）
 
 Droidloom 默认不随开关机启停，升级后需要先让 user manager 重新读取 unit：
@@ -73,7 +75,7 @@ modules/
   desktop/gnome.nix        # GDM/GNOME、GNOME 扩展、本地 overlay（mutter 触摸修正）
   fixes/                   # 绕过上游/打包怪癖的修正
   network/networkmanager.nix
-  programs/                # browsers、basic-dev-tools、cuda12、clash-verge、waydroid、droidloom
+  programs/                # browsers、basic-dev-tools、nix-tools、cuda12、clash-verge、waydroid、droidloom
   services/                # mihomo、ssh
 pkgs/
   mutter-touch-fix/        # 自打包：mutter 触摸 grab 空指针崩溃补丁
@@ -87,6 +89,7 @@ docs/README.md             # 配置整理决策记录（含踩坑说明，改配
 - **主机与模块分离**：`hosts/*/configuration.nix` 只做 `imports`、主机名、`system.stateVersion` 等主机级声明；可复用逻辑一律放进 `modules/`，两台机器需要同样行为时改模块而不是复制文件。`hardware-configuration.nix` 由 `nixos-generate-config` 生成，不要手改。
 - **`system.stateVersion = "26.11"`** 表示首次安装时的版本，用于维持旧数据/服务状态兼容。升系统时**不要**跟着改。
 - **自定义包**：`modules/desktop/gnome.nix` 通过 `nixpkgs.overlays` 引入 `mutter-touch-fix`，给 `mutter` 打上触摸 grab 的 NULL 解引用补丁。
+- **`nixos-rebuild` 的构建树来自 nom**：`modules/programs/nix-tools.nix` 覆写 `pkgs.nixos-rebuild-ng` 来接管交互式输出，只替换入口脚本，man page 与补全照旧。为什么不能用 `--log-format internal-json`、为什么真入口必须写死 store 路径、为什么 re-exec 不会叠出第二个 nom，见 `docs/README.md` 的对应一节。
 - **`nixpkgs-cuda12` 只作用于 G15**：通过 `specialArgs` 注入，`modules/programs/cuda12.nix` 独立 `import` 该 nixpkgs，不污染全局。
 - **EGO 固件是 unfreeRedistributable**：`linux-firmware-gaokun3` 必须用 `allowUnfreePredicate` 显式放行，故 `hosts/Berrys-EGO/gaokun3.nix` 里的许可声明不能删。
 - **Droidloom 是源码移植，不是打包现成二进制**：`pkgs/droidloom` 只编译上游 host 程序，Android 载荷原样进 store；首次 `pkexec` setup 被模块改写成声明式的 `/etc/droidloom/cell.json`、数据目录和 polkit 规则，`droidloomctl start` 的用法保持不变。踩坑、内核要求与升级流程见 `docs/README.md` 的 Droidloom 一节。

@@ -39,3 +39,13 @@
 - **`droidloomctl gpu`、`droidloomctl update` 在 NixOS 上不可用。** 它们被 `/usr/share/droidloom/package.json` 判定为 pacman 安装后才工作；这里那条路径已被替换成不存在的文件。换 GPU 请改 `services.droidloom.gpu` / `graphicsBackend` 再 `nixos-rebuild switch`；升级请改 `pkgs/droidloom/package.nix` 的 `version`。
 - **升级流程。** 改 `package.nix` 的 `version`；三个包的新 hash 从上游客服端 `https://denialwm.github.io/droidloom/<arch>/droidloom.db` 的 `%SHA256SUM%` 取十六进制后转 SRI（`nix hash convert --hash-algo sha256 --to sri`），`cargoHash` 让 nix 构建报新值。不要给 Android 载荷套 overlay、不要 patch 里面的 ELF。
 - **未做/未验证：** GApps（要用户自备 add-on 镜像）、`Berrys-G15`（x86_64 + NVIDIA 需要 `graphicsBackend = "forwarding"`、`gpu` 和宿主 Vulkan ICD，未在真机验证）、自动启动（默认关闭，`autoStart = true` 时写 XDG autostart，由 uid 守卫）。
+
+## nix-output-monitor 与 nixos-rebuild
+
+`modules/programs/nix-tools.nix` 把 `nix-output-monitor` 装进系统，并让交互式 `nixos-rebuild` 自动经过 nom 显示构建树。下面几条是实现约束，别当成可以化简的冗余：
+
+- **走人类可读解析（`nixos-rebuild … |& nom`），不用 `--log-format internal-json`。** nom 的 JSON 模式要求整条流都是 internal-json，而 nixos-rebuild 自己还会输出“building NixOS system…”和激活阶段文本，混进去只会让 nom 报坏行；nom README 也明确把 nixos-rebuild 归到普通管道用法。包装器因此不改任何参数，只接管 stdout/stderr。
+- **覆写 `pkgs.nixos-rebuild-ng`，而不是关掉 `system.tools.nixos-rebuild` 再塞自己的包。** NixOS 的 tools 模块把 `config.system.build.nixos-rebuild`（= `pkgs.nixos-rebuild-ng`）放进 `environment.systemPackages`；overlay 包住它就能覆盖 PATH 里的 `nixos-rebuild`，同时保住 man page、shell 补全和 `system.tools.*` 语义。若改用“disable + 自己加包”，`man nixos-rebuild` 会一起消失。
+- **替换点在 `postFixup`，且真入口用绝对 store 路径。** `postFixup` 跑在 `wrapPythonPrograms` 之后，此时把 `bin/nixos-rebuild` 改名为同目录的 `.nixos-rebuild-unwrapped` 再放新脚本即可。新脚本里必须写死自身输出路径（`$out/bin/.nixos-rebuild-unwrapped`），不能靠 `$0`：ng 的 `reexec` 会 `os.execve(新 store 路径/bin/nixos-rebuild, argv, …)`，但 `argv[0]` 仍是旧一代的路径，按 `$0` 解析会跑回旧版本。
+- **re-exec 不会叠出第二个 nom。** switch/boot/test 每次都会触发 reexec（`argv[0]` 是 `/run/current-system/sw/bin/...` 符号链接，和 store 路径永不相等），所以 reexec 出来的新包装器总会被调用一次。外层包装器把 stdout/stderr 接进 nom 之后，新包装器看到的 stdout 是那根管道而不是终端，`[ -t 1 ]` 判断让它只透传，画面始终只有外层这一个 nom。反过来，第一次 switch 时当前一代还是未包装的 ng，reexec 出来的包装器 stdout 仍是终端，会自己画树。
+- **只接管构建类动作，且只在 stdout 是终端时启用。** `edit`、`repl`、`list-generations` 需要原始终端；`--help`、`--json`、`--log-format` 要么是给人看的说明，要么要求机器可读输出；CI、重定向、`| tee` 时套 nom 会把转义码写进日志。这些情况一律 `exec` 真入口，行为与未包装时完全一致（退出码也由 `set -o pipefail` 保证不被 nom 的 0 掩盖）。

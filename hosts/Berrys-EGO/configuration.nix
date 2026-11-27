@@ -21,6 +21,7 @@
     ../../modules/programs/basic-dev-tools.nix
     ../../modules/programs/clash-verge.nix
     ../../modules/programs/droidloom.nix
+    ../../modules/programs/nix-tools.nix
     ../../profiles/i18n/zh-cn.nix
   ];
 
