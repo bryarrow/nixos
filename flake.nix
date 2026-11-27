@@ -5,10 +5,12 @@
     extra-substituters = [
       "https://berrys-nixos.cachix.org"
       "https://gaokun3.cachix.org"
+      "https://wvhulle.cachix.org"
     ];
     extra-trusted-public-keys = [
       "berrys-nixos.cachix.org-1:N4MjZIxrYDxyIQwm+95J63GhYehDnqs+LBLQUMtXkaY="
       "gaokun3.cachix.org-1:ikL6EofK55QEwKucrUo44SPKewscvAMJr7ibBxJtIsI="
+      "wvhulle.cachix.org-1:heXx8DZMiRsKUx6l1TxNoF+Nmtmz66QEdsonQzc1ir0="
     ];
   };
 
@@ -16,9 +18,15 @@
     gaokun3.url = "github:bryarrow/linux-gaokun-buildbot/gaokun3-nix";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-cuda12.url = "github:NixOS/nixpkgs/0954f7ee2f6bb3dc7d4e3d0d8bcb8fd4bde4cfc5";
+
+    bootvine = {
+      url = "git+https://codeberg.org/wvhulle/bootvine";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
-  outputs = { nixpkgs, nixpkgs-cuda12, gaokun3, ... }: {
+  outputs = { nixpkgs, nixpkgs-cuda12, gaokun3, bootvine, ... }: {
     # Droidloom 的 host 包与 Android 载荷；`nix build .#droidloom` 即可单独构建，
     # 不必等整台机器的 toplevel。模块见 modules/programs/droidloom.nix。
     packages = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (system: {
@@ -64,6 +72,7 @@
       system = "aarch64-linux";
       specialArgs = { inherit gaokun3; };
       modules = [
+        bootvine.nixosModules.default
         ./hosts/Berrys-EGO/configuration.nix
       ];
     };

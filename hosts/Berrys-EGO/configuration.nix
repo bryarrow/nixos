@@ -14,7 +14,6 @@
     ../../modules/services/linyaps.nix
     ../../modules/services/netbird.nix
     ../../modules/services/keyd.nix
-    ../../modules/desktop/plymouth.nix
     ../../modules/desktop/gnome.nix
     ../../modules/fixes/gio-extra-modules.nix
     ../../modules/network/networkmanager.nix

@@ -9,4 +9,6 @@
 
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.loader.efi.canTouchEfiVariables = false;
+
+  services.bootvine.enable = true;
 }
