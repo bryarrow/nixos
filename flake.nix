@@ -65,7 +65,8 @@
         inherit nixpkgs-cuda12;
       };
       modules = [
-        ./hosts/Berrys-G15/configuration.nix
+        bootvine.nixosModules.default
+	./hosts/Berrys-G15/configuration.nix
       ];
     };
     nixosConfigurations.berrysEGO = nixpkgs.lib.nixosSystem {

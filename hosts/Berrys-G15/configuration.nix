@@ -8,7 +8,6 @@
     ./users.nix
 
     ../../modules/desktop/gnome.nix
-    ../../modules/desktop/plymouth.nix
     ../../modules/fixes/gio-extra-modules.nix
     ../../modules/network/networkmanager.nix
     ../../modules/services/flatpak.nix

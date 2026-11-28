@@ -10,4 +10,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
+
+  services.bootvine.enable = true;
 }
